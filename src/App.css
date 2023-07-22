@@ -3,6 +3,10 @@
 /*
 Mobile: 375px
 Desktop: 1440px
+  --bg-color: hsl(233, 11%, 84%);
+
+  --veryDarkDesaturedBlue: hsl(235, 24%, 19%);
+  --darkGrayishBlue2: hsl(234, 11%, 52%);
 */
 
 :root {
@@ -15,22 +19,26 @@ Desktop: 1440px
     var(--checkBackgroundColor1),
     var(--checkBackgroundColor2)
   );
+}
 
-  /* LIGHT THEME */
-  --veryLightGray: hsl(0, 0%, 98%);
-  --veryLightGrayishBlue: hsl(236, 33%, 92%);
-  --lightGrayishBlue: hsl(233, 11%, 84%);
-  --darkGrayishBlue: hsl(236, 9%, 61%);
-  --veryDarkGrayishBlue: hsl(235, 19%, 35%);
+.lightTheme {
+  --todoFont-color: hsl(235, 19%, 35%);
+  --optinsHover-color: hsl(235, 19%, 35%);
+  --completed-color: hsl(236, 33%, 92%);
+  --option-color: hsl(236, 9%, 61%);
+  --bg-color: hsl(0, 0%, 98%);
+  --heading-color: hsl(0, 0%, 98%);
+  --todoBackground-color: hsl(0, 0%, 98%);
+}
 
-  /* DARK THEME */
-  --veryDarkBlue: hsl(235, 21%, 11%);
-  --veryDarkDesaturedBlue: hsl(235, 24%, 19%);
-  --lightGrayishBlue2: hsl(234, 39%, 85%);
-  --lightGrayishBlue2Hover: hsl(236, 33%, 92%);
-  --darkGrayishBlue2: hsl(234, 11%, 52%);
-  --veryDarkGrayishBlue2: hsl(233, 14%, 35%);
-  --veryDarkBlue2: hsl(237, 14%, 26%);
+.darkTheme {
+  --todoFont-color: hsl(234, 39%, 85%);
+  --optionsHover-color: hsl(236, 33%, 92%);
+  --completed-color: hsl(233, 14%, 35%);
+  --option-color: hsl(234, 11%, 52%);
+  --bg-color: hsl(235, 21%, 11%);
+  --heading-color: hsl(236, 33%, 92%);
+  --todoBackground-color: hsl(237, 14%, 26%);
 }
 
 *,
@@ -40,4 +48,181 @@ Desktop: 1440px
   padding: 0;
   box-sizing: border-box;
   font-family: "Josefin Sans";
+}
+
+.app {
+  position: relative;
+}
+
+.background {
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--bg-color);
+  transition: all 0.3s ease-in-out;
+}
+
+.images {
+  position: relative;
+}
+
+.images img {
+  position: absolute;
+  top: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.container {
+  width: min(530px, 90%);
+  height: 650px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: none;
+}
+
+/* ------- HEADER  ------- */
+
+.header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  height: max-content;
+  padding: 2rem 0 2.5rem 0;
+}
+
+.header h1 {
+  color: var(--heading-color);
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 22px;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+.header button {
+  position: absolute;
+  right: 0;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ------- INPUT  ------- */
+
+.newTodo {
+  position: relative;
+}
+
+.checkBox {
+  width: 1.5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid var(--completed-color);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 1.25rem;
+  transition: border 0.3s ease-in-out;
+}
+
+.input {
+  width: 100%;
+  height: 3.5rem;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  padding: 0 4rem;
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  color: var(--todoFont-color);
+  background-color: var(--todoBackground-color);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.input::placeholder {
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  color: var(--option-color);
+  transition: color 0.3s ease-in-out;
+}
+
+/* ------- TODOS  ------- */
+
+.todosContainer {
+  margin-top: 30px;
+  -webkit-box-shadow: 0px 8px 22px 7px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 8px 22px 7px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 8px 22px 7px rgba(0, 0, 0, 0.15);
+}
+
+.todo {
+  width: 100%;
+  background-color: var(--todoBackground-color);
+  height: 3.5rem;
+  color: var(--todoFont-color);
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 4rem;
+  border-bottom: 1px solid var(--completed-color);
+  transition: border 0.3s ease-in-out, color 0.3s ease-in-out,
+    background-color 0.3s ease-in-out;
+}
+
+.todo:first-child {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.todoCheckBox {
+  width: 1.5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--completed-color);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.todoCheckBox:hover {
+  background: linear-gradient(
+    to right bottom,
+    var(--checkBackgroundColor1),
+    var(--checkBackgroundColor2)
+  );
+  transition: background 0.3s ease-in-out;
+}
+
+.todoCheckBoxInnerCircle {
+  width: 1.4rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: var(--todoBackground-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.todoText {
+  font-size: 1.2rem;
+}
+
+.cross {
+  position: absolute;
+  right: 1.25rem;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 }
