@@ -327,6 +327,23 @@ Desktop: 1440px
 }
 
 @media screen and (width <= 375px) {
+
+	.images img:first-child {
+		display: none;
+	}
+
+	.images img:nth-child(2){
+		display: none;
+	}
+
+	.images img:nth-child(3){
+		display: block !important;
+	}
+
+	.images img:nth-child(4){
+		display: block !important;
+	}
+
 	.container {
 		height: 100%;
 		left: 50%;

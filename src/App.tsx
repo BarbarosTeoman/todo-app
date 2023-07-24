@@ -91,6 +91,24 @@ function App() {
 					src="/bg-desktop-dark.jpg"
 					alt=""
 				/>
+				<img
+					style={
+						theme == "lightTheme"
+							? { opacity: 1, display: "none" }
+							: { opacity: 0, display: "none" }
+					}
+					src="/bg-mobile-light.jpg"
+					alt=""
+				/>
+				<img
+					style={
+						theme == "lightTheme"
+							? { opacity: 0, display: "none" }
+							: { opacity: 1, display: "none" }
+					}
+					src="/bg-mobile-dark.jpg"
+					alt=""
+				/>
 			</div>
 			<div className="background"></div>
 			<div className="container">
