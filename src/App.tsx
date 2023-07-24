@@ -78,14 +78,6 @@ function App() {
 		setActiveOption("all")
 	}
 
-	// for (let todo in todos) {
-	// 	if (todos[todo] === true) {
-	// 		completedTodos[todo] = todos[todo]
-	// 	} else {
-	// 		activeTodos[todo] = todos[todo]
-	// 	}
-	// }
-
 	return (
 		<div className={`app ${theme}`}>
 			<div className="images">
@@ -138,7 +130,11 @@ function App() {
 				>
 					<div className="todos">
 						{Object.keys(
-							activeOption === "all" ? todos : activeOption === "active" ? activeTodos : completedTodos
+							activeOption === "all"
+								? todos
+								: activeOption === "active"
+								? activeTodos
+								: completedTodos
 						).map((todo: string, index) => {
 							return (
 								<Todo
@@ -186,8 +182,45 @@ function App() {
 								</button>
 							</li>
 						</ul>
-						<button className="clearComplete" onClick={clearCompleted}>Clear Completed</button>
+						<button className="clearComplete" onClick={clearCompleted}>
+							Clear Completed
+						</button>
 					</div>
+				</div>
+				<div
+					className="mobileFooter"
+					style={
+						Object.keys(todos).length == 0
+							? { opacity: 0, display: "none" }
+							: { opacity: 1, display: "none" }
+					}
+				>
+					<ul className="mobileOptions">
+						<li>
+							<button
+								className={activeOption == "all" ? "active" : ""}
+								onClick={() => setActiveOption("all")}
+							>
+								All
+							</button>
+						</li>
+						<li>
+							<button
+								className={activeOption == "active" ? "active" : ""}
+								onClick={() => setActiveOption("active")}
+							>
+								Active
+							</button>
+						</li>
+						<li>
+							<button
+								className={activeOption == "completed" ? "active" : ""}
+								onClick={() => setActiveOption("completed")}
+							>
+								Completed
+							</button>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
