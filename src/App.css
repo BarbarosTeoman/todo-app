@@ -23,7 +23,7 @@ Desktop: 1440px
 
 .lightTheme {
 	--todoFont-color: hsl(235, 19%, 35%);
-	--optinsHover-color: hsl(235, 19%, 35%);
+	--optionsHover-color: hsl(235, 19%, 35%);
 	--completed-color: hsl(236, 33%, 92%);
 	--option-color: hsl(236, 9%, 61%);
 	--bg-color: hsl(0, 0%, 98%);
@@ -159,10 +159,29 @@ Desktop: 1440px
 	box-shadow: 0px 8px 22px 7px rgba(0, 0, 0, 0.15);
 }
 
+.todos {
+	max-height: 448px;
+	overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	border-top-right-radius: 5px;
+	background-color: var(--todoBackground-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--option-color);
+}
+
 .todo {
 	width: 100%;
 	background-color: var(--todoBackground-color);
-	height: 3.5rem;
+	height: max-content;
+	min-height: 3.5rem;
 	color: var(--todoFont-color);
 	position: relative;
 	display: flex;
@@ -170,8 +189,17 @@ Desktop: 1440px
 	padding-left: 4rem;
 	border-bottom: 1px solid var(--completed-color);
 	cursor: pointer;
-	transition: border 0.3s ease-in-out, color 0.3s ease-in-out,
-		background-color 0.3s ease-in-out;
+	transition: border 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.clickDiv {
+	position: absolute;
+	left: 0;
+	height: 3.5rem;
+	width: calc(100% - 3.5rem);
+	height: 100%;
+	z-index: 10;
+	background-color: transparent;
 }
 
 .todo:first-child {
@@ -195,36 +223,93 @@ Desktop: 1440px
 	transition: background 0.3s ease-in-out;
 }
 
-.todoCheckBox:hover {
-	background: linear-gradient(
-		to right bottom,
-		var(--checkBackgroundColor1),
-		var(--checkBackgroundColor2)
-	);
-	transition: background 0.3s ease-in-out;
-}
-
 .todoCheckBoxInnerCircle {
-	width: 1.4rem;
+	width: 1.2rem;
 	aspect-ratio: 1;
 	border-radius: 50%;
 	background-color: var(--todoBackground-color);
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	transition: all 0.3s ease-in-out;
+}
+
+.todoCheckBox img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	transition: all 0.3s ease-in-out;
 }
 
 .todoText {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	padding-top: 0.3rem;
+	width: calc(100% - 3.5rem);
+}
+
+.todoText span {
 	font-size: 1.2rem;
+	line-height: 1.5rem;
+	user-select: none;
+	-webkit-user-select: none;
+	transition: all 0.3s ease-in-out;
 }
 
 .cross {
 	position: absolute;
-	right: 1.25rem;
+	right: 0;
 	outline: none;
 	border: none;
 	background-color: transparent;
 	cursor: pointer;
 	z-index: 100;
+	height: 3.5rem;
+	aspect-ratio: 1;
+}
+
+.footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.3rem 1rem 0 1rem;
+	height: 3rem;
+	background-color: var(--todoBackground-color);
+	transition: background-color 0.3s ease-in-out;
+	font-size: 1rem;
+	color: var(--option-color);
+}
+
+.options {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	margin-left: 2rem;
+	font-weight: 600;
+}
+
+.options li {
+	list-style: none;
+	font-weight: 700;
+}
+
+.footer button {
+	cursor: pointer;
+	border: none;
+	outline: none;
+	background-color: transparent;
+	font-size: 1rem;
+	color: var(--option-color);
+	font-weight: 700;
+}
+
+.footer button:hover {
+	color: var(--optionsHover-color);
+}
+
+.clearComplete {
+	font-weight: 400 !important;
+}
+
+.active {
+	color: var(--brightBlue) !important;
 }

@@ -1,53 +1,92 @@
 import "./App.css"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Todo from "./Todo"
 
 type Todo = {
-  [todo: string]: boolean
+	[todo: string]: boolean
 }
 
 function App() {
-  const [theme, setTheme] = useState<string>("lightTheme")
+	const [theme, setTheme] = useState<string>("lightTheme")
 
-  const [newTodo, setNewTodo] = useState<string>("")
-  const [todos, setTodos] = useState<Todo>({})
+	const [newTodo, setNewTodo] = useState<string>("")
 
-  const noShadow: Object = {
+	const [todos, setTodos] = useState<Todo>({})
+	const [completedTodos, setCompletedTodos] = useState<Todo>({})
+	const [activeTodos, setActiveTodos] = useState<Todo>({})
+
+	const [activeOption, setActiveOption] = useState<string>("all")
+
+	const noShadow: Object = {
 		boxShadow: "none",
-		mozBoxShadow: "none",
-		webkitBoxShadow: "none",
+		MozBoxShadow: "none",
+		WebkitBoxShadow: "none",
 		color: "red",
 	}
 
+	const toggleTheme = (): void => {
+		if (theme === "lightTheme") {
+			setTheme("darkTheme")
+		} else {
+			setTheme("lightTheme")
+		}
+	}
 
-  const toggleTheme = (): void => {
-    if (theme === "lightTheme") {
-      setTheme("darkTheme")
-    } else {
-      setTheme("lightTheme")
-    }
-  }
+	const handleKeyDown = (e: any) => {
+		if (e.key === "Enter" && newTodo !== "") {
+			setTodos({ ...todos, [newTodo]: false })
+			setNewTodo("")
+			setActiveOption("all")
+		}
+	}
 
-  const handleKeyDown = (e: any) => {
-    if (e.key === "Enter" && newTodo !== "") {
-      setTodos({ ...todos, [newTodo]: false })
-      setNewTodo("")
-    }
-  }
+	const deleteTodo = (task: string) => {
+		const newTodos = { ...todos }
+		delete newTodos[task]
+		setTodos(newTodos)
+	}
 
-  const deleteTodo = (task: string) => {
-    const newTodos = { ...todos }
-    delete newTodos[task]
-    setTodos(newTodos)
-  }
+	const toggleTodo = (task: string) => {
+		const newTodos = { ...todos }
+		newTodos[task] = !newTodos[task]
+		setTodos(newTodos)
+	}
 
-  const toggleTodo = (task: string) => {
-    const newTodos = { ...todos }
-    newTodos[task] = !newTodos[task]
-    setTodos(newTodos)
-  }
+	useEffect(() => {
+		const active: Todo = {}
+		const completed: Todo = {}
+		for (const todo in todos) {
+			if (todos[todo]) {
+				completed[todo] = todos[todo]
+			} else {
+				active[todo] = todos[todo]
+			}
+		}
+		setActiveTodos(active)
+		setCompletedTodos(completed)
+	}, [todos])
 
-  return (
+	const clearCompleted = () => {
+		const newTodos = { ...todos }
+		const newCompletedTodos = { ...completedTodos }
+		for (const todo in completedTodos) {
+			delete newTodos[todo]
+			delete newCompletedTodos[todo]
+		}
+		setTodos(newTodos)
+		setCompletedTodos(newCompletedTodos)
+		setActiveOption("all")
+	}
+
+	// for (let todo in todos) {
+	// 	if (todos[todo] === true) {
+	// 		completedTodos[todo] = todos[todo]
+	// 	} else {
+	// 		activeTodos[todo] = todos[todo]
+	// 	}
+	// }
+
+	return (
 		<div className={`app ${theme}`}>
 			<div className="images">
 				<img
@@ -98,17 +137,56 @@ function App() {
 					style={Object.keys(todos).length == 0 ? noShadow : {}}
 				>
 					<div className="todos">
-						{Object.keys(todos).map((todo: string, index) => {
+						{Object.keys(
+							activeOption === "all" ? todos : activeOption === "active" ? activeTodos : completedTodos
+						).map((todo: string, index) => {
 							return (
 								<Todo
-									id={index}
+									key={index}
 									completed={todos[todo]}
 									text={todo}
 									onCrossClick={deleteTodo}
-                  handleCompleted={toggleTodo}
+									handleCompleted={toggleTodo}
 								/>
 							)
 						})}
+					</div>
+					<div
+						className="footer"
+						style={
+							Object.keys(todos).length == 0 ? { opacity: 0 } : { opacity: 1 }
+						}
+					>
+						<span className="todoCount">
+							{Object.keys(activeTodos).length} items left
+						</span>
+						<ul className="options">
+							<li>
+								<button
+									className={activeOption == "all" ? "active" : ""}
+									onClick={() => setActiveOption("all")}
+								>
+									All
+								</button>
+							</li>
+							<li>
+								<button
+									className={activeOption == "active" ? "active" : ""}
+									onClick={() => setActiveOption("active")}
+								>
+									Active
+								</button>
+							</li>
+							<li>
+								<button
+									className={activeOption == "completed" ? "active" : ""}
+									onClick={() => setActiveOption("completed")}
+								>
+									Completed
+								</button>
+							</li>
+						</ul>
+						<button className="clearComplete" onClick={clearCompleted}>Clear Completed</button>
 					</div>
 				</div>
 			</div>
